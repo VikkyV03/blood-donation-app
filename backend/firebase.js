@@ -1,9 +1,7 @@
-// backend/firebase.js
-
 const admin = require('firebase-admin');
-const path = require('path');
 
-const serviceAccount = require(path.join(__dirname, 'firebase-service-account.json'));
+// Use absolute path for Render's secret file
+const serviceAccount = require('/etc/secrets/FIREBASE_SERVICE_ACCOUNT_KEY');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
