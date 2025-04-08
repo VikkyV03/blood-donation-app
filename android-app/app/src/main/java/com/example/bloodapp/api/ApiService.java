@@ -1,10 +1,9 @@
-// android-app/app/src/main/java/com/example/bloodapp/api/ApiService.java
-
 package com.example.bloodapp.api;
 
 import com.example.bloodapp.models.User;
 import com.example.bloodapp.models.Donor;
 import com.example.bloodapp.models.BloodRequest;
+import com.example.bloodapp.models.LoginResponse; // <- Make sure this is here
 
 import java.util.List;
 
@@ -14,10 +13,10 @@ import retrofit2.http.*;
 public interface ApiService {
 
     @POST("auth/register")
-    Call<User> register(@Body User user);
+    Call<LoginResponse> register(@Body User user); // <- Should return LoginResponse
 
     @POST("auth/login")
-    Call<User> login(@Body User user);
+    Call<LoginResponse> login(@Body User user); // <- Should return LoginResponse
 
     @POST("donors")
     Call<Void> registerDonor(@Body Donor donor);

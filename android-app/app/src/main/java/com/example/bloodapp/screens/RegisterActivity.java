@@ -1,6 +1,7 @@
 package com.example.bloodapp.screens;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import com.example.bloodapp.R;
 import com.example.bloodapp.api.ApiClient;
 import com.example.bloodapp.api.ApiService;
 import com.example.bloodapp.models.User;
+import com.example.bloodapp.models.LoginResponse;
+import com.example.bloodapp.MainActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,31 +45,41 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     void registerUser() {
-        User user = new User(
-                nameInput.getText().toString(),
-                emailInput.getText().toString(),
-                passwordInput.getText().toString(),
-                phoneInput.getText().toString(),
-                roleSpinner.getSelectedItem().toString()
-        );
+        String name = nameInput.getText().toString();
+        String email = emailInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        String phone = phoneInput.getText().toString();
+        String role = roleSpinner.getSelectedItem().toString();
 
-        ApiService apiService = ApiClient.getClient(RegisterActivity.this).create(ApiService.class);
-        Call<User> call = apiService.register(user);
+        if (name.isEmpty() || email.isEmpty() || password.isEmpty() || phone.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        call.enqueue(new Callback<User>() {
+        User user = new User(name, email, password, phone, role);
+
+        ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
+        Call<LoginResponse> call = apiService.register(user);
+
+        call.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("token", response.body().getToken());
+                    editor.apply();
+
                     Toast.makeText(RegisterActivity.this, "Registered successfully!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     finish();
                 } else {
-                    Toast.makeText(RegisterActivity.this, "Registration failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Toast.makeText(RegisterActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

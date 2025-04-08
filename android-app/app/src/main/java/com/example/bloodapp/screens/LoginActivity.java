@@ -9,6 +9,8 @@ import com.example.bloodapp.R;
 import com.example.bloodapp.api.ApiClient;
 import com.example.bloodapp.api.ApiService;
 import com.example.bloodapp.models.User;
+import com.example.bloodapp.models.LoginResponse; // <-- Create this class
+import com.example.bloodapp.MainActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,9 +46,9 @@ public class LoginActivity extends AppCompatActivity {
 
         User loginUser = new User(email, password);
         ApiService api = ApiClient.getClient(this).create(ApiService.class);
-        api.login(loginUser).enqueue(new Callback<User>() {
+        api.login(loginUser).enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     // Save token to shared preferences
                     SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
@@ -63,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Login failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
