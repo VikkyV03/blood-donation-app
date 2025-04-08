@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Main App Theme -->
+    <style name="Theme.BloodApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary branding -->
+        <item name="colorPrimary">@color/blood_primary</item>
+        <item name="colorPrimaryVariant">@color/blood_primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Secondary branding -->
+        <item name="colorSecondary">@color/blood_secondary</item>
+        <item name="colorSecondaryVariant">@color/blood_secondary_dark</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Backgrounds & surfaces -->
+        <item name="android:colorBackground">@color/blood_background</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+
+        <!-- App bar / status bar -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+
+        <!-- Buttons, switches, etc -->
+        <item name="colorAccent">@color/blood_accent</item>
+
+        <!-- Typography -->
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+</resources>

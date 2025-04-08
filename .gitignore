@@ -1,0 +1,21 @@
+# Node.js backend
+node_modules/
+.env
+
+# Android project
+.gradle/
+.idea/
+*.iml
+local.properties
+*.apk
+*.keystore
+build/
+app/build/
+
+# Firebase
+google-services.json
+firebase-adminsdk*.json
+
+# OS
+.DS_Store
+Thumbs.db

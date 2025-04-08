@@ -1,0 +1,7 @@
+<!-- res/layout/activity_map_screen.xml -->
+<fragment
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/map_container"
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="blood_primary">#B71C1C</color> <!-- Deep Red -->
+    <color name="blood_primary_dark">#7F0000</color>
+    <color name="blood_secondary">#D32F2F</color>
+    <color name="blood_secondary_dark">#9A0007</color>
+    <color name="blood_accent">#FF5252</color>
+    <color name="blood_background">#FFF8F8F8</color>
+</resources>

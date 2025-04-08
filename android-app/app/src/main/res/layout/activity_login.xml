@@ -1,0 +1,27 @@
+<!-- res/layout/activity_login.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="24dp">
+
+    <EditText
+        android:id="@+id/login_email"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/login_password"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/login_button"
+        android:text="Login"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/login_to_register_button"
+        android:text="No account? Register"
+        android:layout_width="match_parent" android:layout_height="wrap_content"/>
+</LinearLayout>

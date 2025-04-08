@@ -1,0 +1,24 @@
+<!-- res/layout/activity_donor_form.xml -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <Spinner android:id="@+id/donor_bloodtype_spinner"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        <EditText android:id="@+id/donor_city" android:hint="City"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        <EditText android:id="@+id/donor_last_donated" android:hint="Last Donated (YYYY-MM-DD)"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        <Switch android:id="@+id/donor_available" android:text="Available to donate?"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+
+        <Button android:id="@+id/donor_submit_button" android:text="Submit"
+            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+    </LinearLayout>
+</ScrollView>
