@@ -3,14 +3,16 @@ package com.example.bloodapp.screens;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.*;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.bloodapp.R;
 import com.example.bloodapp.api.ApiClient;
 import com.example.bloodapp.api.ApiService;
 import com.example.bloodapp.models.User;
-import com.example.bloodapp.models.LoginResponse; // <-- Create this class
-import com.example.bloodapp.MainActivity;
+import com.example.bloodapp.models.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,27 +48,32 @@ public class LoginActivity extends AppCompatActivity {
 
         User loginUser = new User(email, password);
         ApiService api = ApiClient.getClient(this).create(ApiService.class);
+
         api.login(loginUser).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Save token to shared preferences
+                LoginResponse loginResponse = response.body();
+                if (response.isSuccessful() && loginResponse != null) {
                     SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("token", response.body().getToken());
+                    editor.putString("token", loginResponse.getToken());
+                    editor.putString("name", loginResponse.getName());
+                    editor.putString("email", loginResponse.getEmail());
                     editor.apply();
 
                     Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
                 } else {
-                    Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Invalid credentials or user not found", Toast.LENGTH_SHORT).show();
+                    Log.e("LOGIN_FAIL", "Response error: " + response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, "Login failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("LOGIN_DEBUG", "Login error: " + t.getMessage(), t);
             }
         });
     }

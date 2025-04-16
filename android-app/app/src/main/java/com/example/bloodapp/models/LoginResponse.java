@@ -2,13 +2,18 @@ package com.example.bloodapp.models;
 
 public class LoginResponse {
     private String token;
-    private User user;
+    private String name;
+    private String email;
 
     public String getToken() {
         return token;
     }
 
-    public User getUser() {
-        return user;
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

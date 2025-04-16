@@ -1,6 +1,7 @@
 package com.example.bloodapp.screens;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ import retrofit2.Response;
 public class DonorFormActivity extends AppCompatActivity {
 
     Spinner bloodTypeSpinner;
-    EditText cityInput, lastDonatedInput;
+    EditText nameInput, phoneInput, cityInput, lastDonatedInput;
     Switch availabilitySwitch;
     Button submitButton;
 
@@ -35,13 +36,21 @@ public class DonorFormActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donor_form);
+        TextView donorHeader = findViewById(R.id.donor_header);
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String name = prefs.getString("name", "user");
+        donorHeader.setText("Donor @" + name);
 
+        // Bind views
         bloodTypeSpinner = findViewById(R.id.donor_bloodtype_spinner);
+        nameInput = findViewById(R.id.donor_name);
+        phoneInput = findViewById(R.id.donor_phone);
         cityInput = findViewById(R.id.donor_city);
         lastDonatedInput = findViewById(R.id.donor_last_donated);
         availabilitySwitch = findViewById(R.id.donor_available);
         submitButton = findViewById(R.id.donor_submit_button);
 
+        // Setup spinner
         String[] bloodTypes = {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, bloodTypes);
         bloodTypeSpinner.setAdapter(adapter);
@@ -62,7 +71,6 @@ public class DonorFormActivity extends AppCompatActivity {
             if (location != null) {
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-                Toast.makeText(this, "Location fetched", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Unable to get location", Toast.LENGTH_SHORT).show();
             }
@@ -70,24 +78,27 @@ public class DonorFormActivity extends AppCompatActivity {
     }
 
     void submitDonorForm() {
-        Donor donor = new Donor(
-                bloodTypeSpinner.getSelectedItem().toString(),
-                cityInput.getText().toString(),
-                lastDonatedInput.getText().toString(),
-                availabilitySwitch.isChecked(),
-                latitude,
-                longitude
-        );
+        String name = nameInput.getText().toString().trim();
+        String phone = phoneInput.getText().toString().trim();
+        String bloodType = bloodTypeSpinner.getSelectedItem().toString();
+        String city = cityInput.getText().toString().trim();
+        String lastDonated = lastDonatedInput.getText().toString().trim();
+        boolean available = availabilitySwitch.isChecked();
+
+        if (name.isEmpty() || phone.isEmpty() || city.isEmpty()) {
+            Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Donor donor = new Donor(name, phone, bloodType, city, lastDonated, available, latitude, longitude);
 
         ApiService api = ApiClient.getClient(this).create(ApiService.class);
-        Call<Void> call = api.registerDonor(donor);
-
-        call.enqueue(new Callback<Void>() {
+        api.registerDonor(donor).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(DonorFormActivity.this, "Donor registered!", Toast.LENGTH_SHORT).show();
-                    finish(); // go back to previous screen
+                    finish();
                 } else {
                     Toast.makeText(DonorFormActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                 }

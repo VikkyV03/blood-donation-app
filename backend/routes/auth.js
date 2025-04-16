@@ -7,9 +7,12 @@ const User = require('../models/User');
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password, phone, role } = req.body;
+    console.log("📦 Register attempt:", email);
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
+      console.log("⚠️ Email already registered:", email);
       return res.status(400).json({ error: 'User already exists' });
     }
 
@@ -24,10 +27,11 @@ router.post('/register', async (req, res) => {
     });
 
     await user.save();
+    console.log("✅ Registered user:", email);
     res.status(201).json({ message: 'User registered successfully' });
 
   } catch (err) {
-    console.error(err);
+    console.error("🚨 Registration error:", err);
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -35,14 +39,22 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("🔑 Login attempt:");
+    console.log("Email:", email);
+    console.log("Password:", password); // Only for debugging (remove in production)
 
     const user = await User.findOne({ email });
+
     if (!user) {
+      console.log("❌ No user found with this email:", email);
       return res.status(400).json({ error: 'Invalid email' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log("🔍 Password match:", isMatch);
+
     if (!isMatch) {
+      console.log("❌ Incorrect password for:", email);
       return res.status(400).json({ error: 'Invalid password' });
     }
 
@@ -50,16 +62,16 @@ router.post('/login', async (req, res) => {
       expiresIn: '7d'
     });
 
-    // Convert Mongoose doc to plain JS object to append token
     const userWithToken = {
       ...user.toObject(),
       token
     };
 
+    console.log("✅ Login successful for:", email);
     res.json(userWithToken);
 
   } catch (err) {
-    console.error(err);
+    console.error("🚨 Login error:", err);
     res.status(500).json({ error: 'Login error' });
   }
 });

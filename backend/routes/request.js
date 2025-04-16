@@ -1,88 +1,53 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
+const admin = require('../firebase'); // ✅ For future Firebase notifications
 const Request = require('../models/Request');
-const User = require('../models/User');
-const admin = require('../firebase');
 
-// Middleware to check token
-function auth(req, res, next) {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'Token missing' });
-
+// ✅ Create a new blood request
+router.post('/', async (req, res) => {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch {
-    res.status(401).json({ error: 'Token invalid' });
-  }
-}
+    const { userId, bloodType, hospitalName, location, reason } = req.body;
 
-// Create blood request & notify donors
-router.post('/', auth, async (req, res) => {
-  try {
-    const { bloodType, hospitalName, location, reason } = req.body;
-
-    const request = new Request({
-      userId: req.user.userId,
-      bloodType,
-      hospitalName,
-      location,
-      reason,
-    });
-
-    await request.save();
-
-    // Notify donors with matching bloodType
-    const donors = await User.find({
-      role: 'donor',
-      fcmToken: { $exists: true, $ne: null }
-    });
-
-    const tokens = donors.map(d => d.fcmToken);
-    if (tokens.length > 0) {
-      const message = {
-        notification: {
-          title: `🩸 Blood Request: ${bloodType}`,
-          body: `${hospitalName} needs ${bloodType} blood urgently!`,
-        },
-        tokens: tokens,
-      };
-
-      admin.messaging().sendMulticast(message)
-        .then(response => {
-          console.log(`✅ FCM sent to ${response.successCount} donors`);
-        })
-        .catch(err => {
-          console.error('❌ FCM Error:', err);
-        });
+    // Basic validation (optional)
+    if (!userId || !bloodType || !hospitalName || !location || !reason) {
+      return res.status(400).json({ error: 'All fields are required' });
     }
 
-    res.status(201).json({ message: 'Request created & notifications sent' });
+    const newRequest = new Request({
+      userId,
+      bloodType,
+      hospitalName,
+      location, // [longitude, latitude]
+      reason
+    });
+
+    await newRequest.save();
+
+    res.status(201).json({ message: 'Blood request created successfully' });
+
+    // 🔔 OPTIONAL: Trigger push notification (future feature)
+    // const topic = `blood_${bloodType.replace('+', 'pos').replace('-', 'neg')}`;
+    // await admin.messaging().sendToTopic(topic, {
+    //   notification: {
+    //     title: 'Blood Request Alert',
+    //     body: `Urgent need for ${bloodType} blood at ${hospitalName}.`
+    //   }
+    // });
 
   } catch (err) {
-    res.status(500).json({ error: 'Request creation failed' });
+    console.error('❌ Error creating blood request:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
-// View all open requests
+// ✅ Get all blood requests
 router.get('/', async (req, res) => {
   try {
-    const requests = await Request.find({ status: 'open' }).populate('userId', 'name phone');
+    const requests = await Request.find().sort({ createdAt: -1 });
     res.json(requests);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch requests' });
-  }
-});
-
-// Mark request as fulfilled
-router.patch('/:id/fulfill', auth, async (req, res) => {
-  try {
-    await Request.findByIdAndUpdate(req.params.id, { status: 'fulfilled' });
-    res.json({ message: 'Request marked as fulfilled' });
-  } catch (err) {
-    res.status(500).json({ error: 'Update failed' });
+    console.error('❌ Error fetching requests:', err);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 

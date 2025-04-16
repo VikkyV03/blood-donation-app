@@ -15,6 +15,8 @@ app/build/
 # Firebase
 google-services.json
 firebase-adminsdk*.json
+firebase-service-account.json
+firebase-service-account*.json
 
 # OS
 .DS_Store

@@ -11,7 +11,7 @@ import com.example.bloodapp.api.ApiClient;
 import com.example.bloodapp.api.ApiService;
 import com.example.bloodapp.models.User;
 import com.example.bloodapp.models.LoginResponse;
-import com.example.bloodapp.MainActivity;
+//import com.example.bloodapp.MainActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;

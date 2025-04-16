@@ -15,7 +15,8 @@
         android:label="Blood Donation"
 		android:supportsRtl="true"
         android:theme="@style/Theme.BloodApp"
-		android:usesCleartextTraffic="true">
+		android:usesCleartextTraffic="true"
+		android:networkSecurityConfig="@xml/network_security_config">
 
         <!-- Firebase Messaging Channel -->
         <meta-data

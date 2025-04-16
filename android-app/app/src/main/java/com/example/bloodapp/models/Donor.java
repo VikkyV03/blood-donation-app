@@ -1,8 +1,8 @@
-// android-app/app/src/main/java/com/example/bloodapp/models/Donor.java
-
 package com.example.bloodapp.models;
 
 public class Donor {
+    private String name;
+    private String phone;
     private String bloodType;
     private String city;
     private String lastDonated;
@@ -12,7 +12,10 @@ public class Donor {
 
     public Donor() {}
 
-    public Donor(String bloodType, String city, String lastDonated, boolean availabilityStatus, double latitude, double longitude) {
+    public Donor(String name, String phone, String bloodType, String city, String lastDonated,
+                 boolean availabilityStatus, double latitude, double longitude) {
+        this.name = name;
+        this.phone = phone;
         this.bloodType = bloodType;
         this.city = city;
         this.lastDonated = lastDonated;
@@ -20,6 +23,13 @@ public class Donor {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    // Getters and Setters
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
     public String getBloodType() { return bloodType; }
     public void setBloodType(String bloodType) { this.bloodType = bloodType; }

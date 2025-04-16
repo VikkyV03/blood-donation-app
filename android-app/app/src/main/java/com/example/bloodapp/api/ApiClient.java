@@ -1,5 +1,4 @@
 // android-app/app/src/main/java/com/example/bloodapp/api/ApiClient.java
-
 package com.example.bloodapp.api;
 
 import android.content.Context;
@@ -8,6 +7,7 @@ import android.content.SharedPreferences;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -16,7 +16,11 @@ public class ApiClient {
 
     public static Retrofit getClient(Context context) {
         if (retrofit == null) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY); // Log entire request/response
+
             OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(logging)
                 .addInterceptor((Interceptor.Chain chain) -> {
                     Request original = chain.request();
                     SharedPreferences prefs = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
@@ -34,7 +38,7 @@ public class ApiClient {
                 .build();
 
             retrofit = new Retrofit.Builder()
-                .baseUrl("https://blood-donation-app-3efn.onrender.com/api/") // For Android emulator. Use your LAN IP if testing on real device.
+                .baseUrl("https://blood-donation-app-3efn.onrender.com/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -42,3 +46,4 @@ public class ApiClient {
         return retrofit;
     }
 }
+

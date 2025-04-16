@@ -1,24 +1,91 @@
 <!-- res/layout/activity_donor_form.xml -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:padding="24dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="#FFFFFF">
 
-    <LinearLayout android:orientation="vertical"
-        android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <Spinner android:id="@+id/donor_bloodtype_spinner"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/donor_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Donor @username"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:paddingBottom="10dp" />
 
-        <EditText android:id="@+id/donor_city" android:hint="City"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <Spinner
+            android:id="@+id/donor_bloodtype_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+			android:popupBackground="#FFFFFF"
+			android:background="@android:drawable/btn_dropdown"
+			android:theme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        <EditText android:id="@+id/donor_last_donated" android:hint="Last Donated (YYYY-MM-DD)"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/donor_name"
+            android:hint="Full Name"
+            android:textColor="#000000"
+            android:textColorHint="#888888"
+            android:background="@android:drawable/edit_text"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
 
-        <Switch android:id="@+id/donor_available" android:text="Available to donate?"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/donor_phone"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:textColor="#000000"
+            android:textColorHint="#888888"
+            android:background="@android:drawable/edit_text"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
 
-        <Button android:id="@+id/donor_submit_button" android:text="Submit"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/donor_city"
+            android:hint="City"
+            android:textColor="#000000"
+            android:textColorHint="#888888"
+            android:background="@android:drawable/edit_text"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <EditText
+            android:id="@+id/donor_last_donated"
+            android:hint="Last Donated (YYYY-MM-DD)"
+            android:textColor="#000000"
+            android:textColorHint="#888888"
+            android:background="@android:drawable/edit_text"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <Switch
+            android:id="@+id/donor_available"
+            android:text="Available to donate?"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:id="@+id/donor_submit_button"
+            android:text="Submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
     </LinearLayout>
 </ScrollView>

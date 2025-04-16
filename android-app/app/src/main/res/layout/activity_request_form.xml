@@ -1,0 +1,50 @@
+<!-- res/layout/activity_request_form.xml -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:padding="24dp" android:background="#FFFFFF">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/request_blood_type"
+            android:hint="Blood Type"
+            android:textColor="#000000"
+            android:textColorHint="#888888"
+            android:background="@android:drawable/edit_text"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/request_hospital_name"
+            android:hint="Hospital Name"
+            android:textColor="#000000"
+            android:textColorHint="#888888"
+            android:background="@android:drawable/edit_text"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/request_reason"
+            android:hint="Reason"
+            android:textColor="#000000"
+            android:textColorHint="#888888"
+            android:background="@android:drawable/edit_text"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/request_submit_button"
+            android:text="Submit Request"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>

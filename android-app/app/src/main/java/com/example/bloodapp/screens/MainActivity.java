@@ -1,4 +1,4 @@
-package com.example.bloodapp;
+package com.example.bloodapp.screens;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,7 +6,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bloodapp.screens.LoginActivity;
-import com.example.bloodapp.screens.MapScreenActivity;
+
+import com.example.bloodapp.screens.HomeActivity;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         String token = prefs.getString("token", null);
 
         if (token != null) {
-            startActivity(new Intent(this, MapScreenActivity.class));
+            startActivity(new Intent(this, HomeActivity.class));
         } else {
             startActivity(new Intent(this, LoginActivity.class));
         }

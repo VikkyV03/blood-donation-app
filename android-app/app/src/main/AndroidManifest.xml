@@ -14,27 +14,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BloodApp">
 
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="default_channel" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDmBD2DkGg8d3DIL-NkN7RJpZZSu7DdlPk" />
-
-        <activity android:name=".screens.MapScreenActivity" />
-        <activity android:name=".screens.DonorFormActivity" />
-        <activity android:name=".screens.RegisterActivity" />
-        <activity android:name=".screens.LoginActivity" />
-
+        <!-- Launcher: Start from LoginActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".screens.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Other activities -->
+        <activity android:name=".screens.HomeActivity" android:exported="true" />
+        <activity android:name=".screens.RegisterActivity" />
+        <activity android:name=".screens.DonorFormActivity" />
+        <activity android:name=".screens.MapScreenActivity" />
+        <activity android:name=".screens.ProfileActivity" />
+        <activity android:name=".screens.RequestFormActivity" />
+        <activity android:name=".screens.CampOrganizerActivity" />
+        <activity android:name=".screens.CampFunderActivity" />
+
+
+
     </application>
 
 </manifest>
